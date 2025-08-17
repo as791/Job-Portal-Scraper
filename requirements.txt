@@ -1,0 +1,12 @@
+selenium
+tenacity
+pydantic
+structlog
+pymongo
+pydantic-settings
+pytest
+pytest-mock
+pytest-asyncio
+fastapi
+uvicorn[standard]
+

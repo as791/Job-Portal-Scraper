@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:6.0
+    container_name: job-scraper-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+      MONGO_INITDB_DATABASE: jobs_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - job-scraper-network
+
+  # Job Scraper Application
+  job-scraper:
+    build: .
+    container_name: job-scraper-app
+    restart: unless-stopped
+    environment:
+      # MongoDB Configuration
+      MONGODB_URI: mongodb://admin:password123@mongodb:27017/jobs_db?authSource=admin
+      MONGODB_DB: jobs_db
+      JOBS_COLLECTION: jobs
+      TAGS_COLLECTION: job_tags
+      
+      # Scraper Configuration
+      HEADLESS: "true"
+      REQUESTS_PER_SEC: "1.0"
+      TIMEZONE: "UTC"
+      
+      # Logging Configuration
+      LOG_LEVEL: "INFO"
+      
+      # Optional: LinkedIn credentials (set these in production)
+      # LINKEDIN_EMAIL: your_email@example.com
+      # LINKEDIN_PASSWORD: your_password
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongodb
+    networks:
+      - job-scraper-network
+    volumes:
+      - ./logs:/app/logs
+    command: ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+
+  # Optional: MongoDB Express (Web-based MongoDB admin interface)
+  mongo-express:
+    image: mongo-express:latest
+    container_name: job-scraper-mongo-express
+    restart: unless-stopped
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password123
+      ME_CONFIG_MONGODB_URL: mongodb://admin:password123@mongodb:27017/
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: password123
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongodb
+    networks:
+      - job-scraper-network
+
+volumes:
+  mongodb_data:
+    driver: local
+
+networks:
+  job-scraper-network:
+    driver: bridge
