@@ -29,7 +29,7 @@ A job scraping application that extracts job listings from multiple sources incl
 - MongoDB (optional, for database storage)
 - Virtual environment
 
-## 🛠️ Installation
+## Installation
 
 1. **Clone the repository:**
 ```bash
@@ -251,7 +251,7 @@ curl -X POST "http://localhost:8000/jobs/filter" \
   -d '{"company": "Infosys", "is_remote": false}'
 ```
 
-## 🔍 Enhanced Features
+## Enhanced Features
 
 ### Automatic Tagging System
 The scraper automatically generates tags for each job:
@@ -289,7 +289,7 @@ python main.py export --query "data scientist" --company "Google" --location "Ba
 curl "http://localhost:8000/jobs/search?query=python&company=Infosys&location=Bengaluru&source=linkedin&mode=static&remote=false&limit=10&offset=0"
 ```
 
-## 📖 Command Reference
+## Command Reference
 
 ### Static Search (MongoDB)
 ```bash
@@ -385,7 +385,7 @@ curl "http://localhost:8000/jobs/search?query=python&mode=dynamic&limit=5"
 docker-compose exec mongodb mongosh -u admin -p password123
 ```
 
-## 🧪 Testing
+## Testing
 
 ### Run Unit Tests (Fast)
 ```bash
@@ -411,7 +411,7 @@ python run_tests.py scrapers
 python run_tests.py database
 ```
 
-## ⚙️ Configuration
+## Configuration
 
 ### Environment Variables
 
@@ -536,7 +536,7 @@ class NewScraper(BaseScraper):
         pass
 ```
 
-## 🚨 Important Notes
+## Important Notes
 
 ### Rate Limiting
 - The application includes rate limiting to be respectful to websites
@@ -554,7 +554,7 @@ class NewScraper(BaseScraper):
 - Consider using proxies for production use
 - Implement additional anti-detection measures as needed
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### ChromeDriver Issues
 ```bash
@@ -601,7 +601,7 @@ docker-compose exec job-scraper curl -f http://localhost:8000/health
 - Review rate limiting settings
 - Check for website changes
 
-## 📈 Performance
+## Performance
 
 ### Benchmarks
 - **Unit Tests**: < 1 second
@@ -615,7 +615,7 @@ docker-compose exec job-scraper curl -f http://localhost:8000/health
 - Use bulk database operations
 - Consider parallel scraping (with caution)
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -624,7 +624,7 @@ docker-compose exec job-scraper curl -f http://localhost:8000/health
 5. Run the test suite
 6. Submit a pull request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
