@@ -81,11 +81,7 @@ cd job-scraper
 
 2. **Start all services:**
 ```bash
-# Development mode
 docker-compose up -d
-
-# Production mode
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 ```
 
 3. **Access services:**
@@ -157,7 +153,7 @@ docker-compose exec mongodb mongodump --out /backup
 #### Production Deployment
 ```bash
 # Production build
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+docker-compose up -d
 
 # Scale services
 docker-compose up -d --scale job-scraper=3
@@ -519,7 +515,6 @@ job-scraper/
 │   └── models.py         # API response models
 ├── Dockerfile            # Docker configuration
 ├── docker-compose.yml    # Docker Compose setup
-├── docker-compose.prod.yml # Production Docker setup
 ├── mongo-init.js         # MongoDB initialization
 └── requirements.txt      # Dependencies
 ```
